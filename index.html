@@ -359,6 +359,7 @@ footer{
   <div class="intro-lines">
     <div class="intro-line" id="introLine1"></div>
     <div class="intro-line" id="introLine2"></div>
+    <div class="intro-line intro-credit" id="introLine3"></div>
   </div>
   <div class="intro-controls">
     <button class="intro-sound" id="introSound">🔇 Sound off</button>
@@ -403,6 +404,7 @@ footer{
   font-size:clamp(17px, 2.6vw, 26px); color:var(--paper); line-height:1.4; min-height:1.4em;
 }
 .intro-line:first-child{ font-family:var(--mono); font-weight:400; font-size:clamp(12px,1.8vw,15px); letter-spacing:.04em; color:var(--text-dim); text-transform:none; }
+.intro-credit{ font-family:var(--mono); font-weight:400; font-size:clamp(10px,1.4vw,12px); letter-spacing:.14em; text-transform:uppercase; color:var(--signal); margin-top:6px; }
 .intro-cursor{ display:inline-block; width:2px; height:1em; background:var(--signal); vertical-align:middle; margin-left:2px; animation:cursorBlink .9s steps(1) infinite; }
 @keyframes cursorBlink{ 50%{ opacity:0; } }
 .intro-glitch{ color:var(--signal); }
@@ -641,7 +643,7 @@ footer{
       <div class="contact-links reveal">
         <a href="#" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://www.instagram.com/sh33p_2.o/" target="_blank" rel="noopener">Instagram</a>
-        <a href="#" target="_blank" rel="noopener">Download Résumé</a>
+        <a href="https://drive.google.com/file/d/140edQyQ3DtlfyCIEdqzAtDVJqOeSJdOb/view?usp=sharing" target="_blank" rel="noopener">Download Résumé</a>
       </div>
     </div>
   </section>
@@ -666,6 +668,8 @@ footer{
 </div>
 
 <!-- ===================== CALIPSO — AI CONCIERGE ===================== -->
+<a href="#hero" id="siteCredit">Made by Alok Prakash</a>
+
 <button id="calipsoToggle" aria-label="Open Calipso, Alok's portfolio AI">
   <span class="calipso-orb"><span class="calipso-orb-core"></span></span>
   <span class="calipso-toggle-label">Ask Calipso</span>
@@ -690,6 +694,18 @@ footer{
 </div>
 
 <style>
+#siteCredit{
+  position:fixed; left:calc(var(--nav-w) + 24px); bottom:24px; z-index:900;
+  font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text-faint); background:rgba(10,10,12,0.6); backdrop-filter:blur(6px);
+  padding:8px 14px; border:1px solid var(--line); border-radius:100px;
+  transition:color .2s, border-color .2s;
+}
+#siteCredit:hover{ color:var(--signal); border-color:var(--signal); }
+@media (max-width:900px){
+  #siteCredit{ left:16px; bottom:16px; font-size:9px; padding:6px 11px; }
+}
+
 #calipsoToggle{
   position:fixed; bottom:28px; right:28px; z-index:1500;
   display:flex; align-items:center; gap:10px;
@@ -851,12 +867,14 @@ footer{
   const loaderEl = document.getElementById('loader');
   const line1El = document.getElementById('introLine1');
   const line2El = document.getElementById('introLine2');
+  const line3El = document.getElementById('introLine3');
   const skipBtn = document.getElementById('introSkip');
   const soundBtn = document.getElementById('introSound');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const LINE1 = 'Hey there, welcome to the future of advanced AI design by Alok.';
   const LINE2 = "I am Calipso — Alok's portfolio AI.";
+  const LINE3 = 'Made by Alok Prakash.';
 
   const speechSupported = 'speechSynthesis' in window;
   let soundOn = false;
@@ -945,6 +963,7 @@ footer{
     if(reduceMotion){
       line1El.textContent = LINE1;
       line2El.textContent = LINE2;
+      line3El.textContent = LINE3;
       await wait(1100);
       finishIntro();
       return;
@@ -957,7 +976,9 @@ footer{
     speak(LINE2);
     await typeLine(line2El, LINE2, 32);
     await waitForSpeechToFinish(3000);
-    await wait(900);
+    await wait(300);
+    await typeLine(line3El, LINE3, 32);
+    await wait(1000);
     finishIntro();
   }
 
